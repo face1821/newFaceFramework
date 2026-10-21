@@ -1,0 +1,8 @@
+.idea/
+.vscode/
+Library/
+Temp/
+Logs/
+UserSettings/
+/obj
+/Assets/Datas
