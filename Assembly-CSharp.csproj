@@ -65,9 +65,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\scripts\data\static\Tables.cs" />
+    <Compile Include="Assets\scripts\tets\LubanTest.cs" />
     <Compile Include="Assets\scripts\data\static\vector3.cs" />
+    <Compile Include="Assets\scripts\data\static\TbHeroAtkJsonInfo.cs" />
+    <Compile Include="Assets\scripts\data\static\FightBuffNewJsonInfo.cs" />
     <Compile Include="Assets\scripts\data\static\vector2.cs" />
+    <Compile Include="Assets\scripts\data\static\TbFightBuffNewJsonInfo.cs" />
     <Compile Include="Assets\scripts\data\static\vector4.cs" />
+    <Compile Include="Assets\scripts\data\static\HeroAtkJsonInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

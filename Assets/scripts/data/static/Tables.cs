@@ -17,17 +17,23 @@ public partial class Tables
     /// <summary>
     /// 战斗buff
     /// </summary>
-    public TbFightBuffNew TbFightBuffNew {get; }
+    public TbFightBuffNewJsonInfo TbFightBuffNewJsonInfo {get; }
+    /// <summary>
+    /// 战斗技能
+    /// </summary>
+    public TbHeroAtkJsonInfo TbHeroAtkJsonInfo {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
-        TbFightBuffNew = new TbFightBuffNew(loader("tbfightbuffnew"));
+        TbFightBuffNewJsonInfo = new TbFightBuffNewJsonInfo(loader("tbfightbuffnewjsoninfo"));
+        TbHeroAtkJsonInfo = new TbHeroAtkJsonInfo(loader("tbheroatkjsoninfo"));
         ResolveRef();
     }
     
     private void ResolveRef()
     {
-        TbFightBuffNew.ResolveRef(this);
+        TbFightBuffNewJsonInfo.ResolveRef(this);
+        TbHeroAtkJsonInfo.ResolveRef(this);
     }
 }
 

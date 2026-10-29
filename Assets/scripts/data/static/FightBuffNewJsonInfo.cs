@@ -16,9 +16,9 @@ namespace cfg
 /// <summary>
 /// 战斗buff
 /// </summary>
-public sealed partial class FightBuffNew : Luban.BeanBase
+public sealed partial class FightBuffNewJsonInfo : Luban.BeanBase
 {
-    public FightBuffNew(JSONNode _buf) 
+    public FightBuffNewJsonInfo(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = _buf["id"]; }
         { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
@@ -57,9 +57,9 @@ public sealed partial class FightBuffNew : Luban.BeanBase
         { if(!_buf["checkBuffReleasePoint"].IsBoolean) { throw new SerializationException(); }  CheckBuffReleasePoint = _buf["checkBuffReleasePoint"]; }
     }
 
-    public static FightBuffNew DeserializeFightBuffNew(JSONNode _buf)
+    public static FightBuffNewJsonInfo DeserializeFightBuffNewJsonInfo(JSONNode _buf)
     {
-        return new FightBuffNew(_buf);
+        return new FightBuffNewJsonInfo(_buf);
     }
 
     /// <summary>
@@ -203,7 +203,7 @@ public sealed partial class FightBuffNew : Luban.BeanBase
     /// </summary>
     public readonly bool CheckBuffReleasePoint;
    
-    public const int __ID__ = 881962557;
+    public const int __ID__ = 2037421843;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
