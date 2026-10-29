@@ -5,16 +5,19 @@ public static class GameContext
 {
     public static bool IsReady { get; private set; }
 
+    public static ConsoleSystem Console { get; private set; }
     public static StaticDataSystem StaticData { get; private set; }
 
-    public static void Bind(StaticDataSystem staticData)
+    public static void Bind(ConsoleSystem console, StaticDataSystem staticData)
     {
+        Console = console;
         StaticData = staticData;
         IsReady = true;
     }
 
     public static void Clear()
     {
+        Console = null;
         StaticData = null;
         IsReady = false;
     }

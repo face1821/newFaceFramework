@@ -11,7 +11,7 @@ public class LubanTest : MonoBehaviour
             return;
         }
 
-        FightBuffNewJsonInfo buff = GameContext.StaticData.Tables.TbFightBuffNewJsonInfo.Get(4301299);
+        FightBuffNewJsonInfo buff = GameContext.StaticData.Tables.TbFightBuffNewJsonInfo.Get(4301202);
         Debug.Log($"[测试] id={buff.Id}, name={buff.Name}, buffType={buff.BuffType}");
     }
 }

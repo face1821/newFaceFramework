@@ -8,15 +8,18 @@ using UnityEngine;
 public class GameBootstrap : MonoBehaviour
 {
     readonly List<IGameSystem> _systems = new List<IGameSystem>();
+    ConsoleSystem _console;
 
-    void Awake()
+    void Awake() //初始化都在此Awake函数里，同场景的其他脚本尽量使用Start函数，否则执行顺序可能出现问题
     {
         DontDestroyOnLoad(gameObject);
 
-        // 顺序 = 依赖顺序：静态表最先
+        // 顺序 = 依赖顺序：控制台最先，便于收集后续系统日志
+        _console = new ConsoleSystem(transform);
+        _systems.Add(_console);
+
         var staticData = new StaticDataSystem();
         _systems.Add(staticData);
-        // 以后在此追加：AudioSystem、ConsoleSystem 等
 
         foreach (var sys in _systems)
         {
@@ -24,8 +27,14 @@ public class GameBootstrap : MonoBehaviour
             sys.Init();
         }
 
-        GameContext.Bind(staticData);
+        GameContext.Bind(_console, staticData);
         Debug.Log("[启动] 全部系统初始化完成");
+    }
+
+    void Update()
+    {
+        if (_console != null)
+            _console.Tick();
     }
 
     void OnDestroy()
