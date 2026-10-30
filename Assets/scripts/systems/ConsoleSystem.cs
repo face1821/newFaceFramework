@@ -8,7 +8,7 @@ public class ConsoleSystem : IGameSystem
 {
     public string Name => "Console";
 
-    const string ConsolePrefabPath = "Prefabs/Canvas";
+    const string ConsolePrefabPath = "Prefabs/ConsoleUI";
     const int MaxEntries = 500;
     const float DoubleTapWindow = 0.35f;
 

@@ -60,9 +60,11 @@ public class ConsoleUI : MonoBehaviour
         if (entry == null)
             return;
 
+        bool stickToBottom = IsNearBottom();
         AppendLine(entry);
         ApplyText();
-        ScrollToBottom();
+        if (stickToBottom)
+            ScrollToBottom();
     }
 
     public void ClearView()
@@ -73,20 +75,17 @@ public class ConsoleUI : MonoBehaviour
 
     void AppendLine(ConsoleLogEntry entry)
     {
-        string color = GetColor(entry.Type);
         string time = entry.Time.ToString("HH:mm:ss");
-        _builder.Append("<color=#").Append(color).Append('>');
         _builder.Append('[').Append(time).Append("] ");
-        _builder.Append(EscapeRichText(entry.Message));
-        _builder.Append("</color>\n");
+        _builder.Append(entry.Message ?? string.Empty);
+        _builder.Append('\n');
 
         if (entry.Type == LogType.Error || entry.Type == LogType.Exception || entry.Type == LogType.Assert)
         {
             if (!string.IsNullOrEmpty(entry.StackTrace))
             {
-                _builder.Append("<color=#FF8888><size=80%>");
-                _builder.Append(EscapeRichText(entry.StackTrace));
-                _builder.Append("</size></color>\n");
+                _builder.Append(entry.StackTrace);
+                _builder.Append('\n');
             }
         }
     }
@@ -97,6 +96,13 @@ public class ConsoleUI : MonoBehaviour
             contentText.text = _builder.ToString();
     }
 
+    bool IsNearBottom()
+    {
+        if (scrollRect == null)
+            return true;
+        return scrollRect.verticalNormalizedPosition <= 0.01f;
+    }
+
     void ScrollToBottom()
     {
         if (scrollRect == null)
@@ -104,29 +110,6 @@ public class ConsoleUI : MonoBehaviour
 
         Canvas.ForceUpdateCanvases();
         scrollRect.verticalNormalizedPosition = 0f;
-    }
-
-    static string GetColor(LogType type)
-    {
-        switch (type)
-        {
-            case LogType.Warning:
-                return "FFCC00";
-            case LogType.Error:
-            case LogType.Exception:
-            case LogType.Assert:
-                return "FF5555";
-            default:
-                return "FFFFFF";
-        }
-    }
-
-    static string EscapeRichText(string text)
-    {
-        if (string.IsNullOrEmpty(text))
-            return string.Empty;
-        // 避免日志内容里的 < > 被 TMP 当成富文本标签
-        return text.Replace("<", "＜").Replace(">", "＞");
     }
 
     void OnClickClose()
