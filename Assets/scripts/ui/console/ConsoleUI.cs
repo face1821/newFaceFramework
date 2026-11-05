@@ -19,6 +19,9 @@ public class ConsoleUI : MonoBehaviour
 
     void Awake()
     {
+        if (contentText != null)
+            contentText.richText = true;
+
         if (closeButton != null)
             closeButton.onClick.AddListener(OnClickClose);
         if (clearButton != null)
@@ -75,18 +78,38 @@ public class ConsoleUI : MonoBehaviour
 
     void AppendLine(ConsoleLogEntry entry)
     {
+        string color = GetColorHex(entry.Type);
         string time = entry.Time.ToString("HH:mm:ss");
+
+        _builder.Append("<color=").Append(color).Append('>');
         _builder.Append('[').Append(time).Append("] ");
         _builder.Append(entry.Message ?? string.Empty);
-        _builder.Append('\n');
 
         if (entry.Type == LogType.Error || entry.Type == LogType.Exception || entry.Type == LogType.Assert)
         {
             if (!string.IsNullOrEmpty(entry.StackTrace))
             {
-                _builder.Append(entry.StackTrace);
                 _builder.Append('\n');
+                _builder.Append(entry.StackTrace);
             }
+        }
+
+        _builder.Append("</color>");
+        _builder.Append('\n');
+    }
+
+    static string GetColorHex(LogType type)
+    {
+        switch (type)
+        {
+            case LogType.Warning:
+                return "#FFCC00";
+            case LogType.Error:
+            case LogType.Exception:
+            case LogType.Assert:
+                return "#FF4444";
+            default:
+                return "#000000";
         }
     }
 
