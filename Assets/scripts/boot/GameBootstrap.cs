@@ -21,13 +21,19 @@ public class GameBootstrap : MonoBehaviour
         var staticData = new StaticDataSystem();
         _systems.Add(staticData);
 
+        var ui = new UiSystem(transform);
+        _systems.Add(ui);
+
         foreach (var sys in _systems)
         {
             Debug.Log($"[启动] 正在初始化：{sys.Name}");
             sys.Init();
         }
 
-        GameContext.Bind(_console, staticData);
+        // 在此 Register 面板路径，例如：
+        // ui.Register<TestPanel>("Prefabs/UI/TestPanel");
+
+        GameContext.Bind(_console, staticData, ui);
         Debug.Log("[启动] 全部系统初始化完成");
     }
 

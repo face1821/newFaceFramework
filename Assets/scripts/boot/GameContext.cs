@@ -7,11 +7,13 @@ public static class GameContext
 
     public static ConsoleSystem Console { get; private set; }
     public static StaticDataSystem StaticData { get; private set; }
+    public static UiSystem UI { get; private set; }
 
-    public static void Bind(ConsoleSystem console, StaticDataSystem staticData)
+    public static void Bind(ConsoleSystem console, StaticDataSystem staticData, UiSystem ui)
     {
         Console = console;
         StaticData = staticData;
+        UI = ui;
         IsReady = true;
     }
 
@@ -19,6 +21,7 @@ public static class GameContext
     {
         Console = null;
         StaticData = null;
+        UI = null;
         IsReady = false;
     }
 }
