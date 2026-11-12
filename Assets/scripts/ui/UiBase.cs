@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// 面板基类：由 UiSystem 调用 Open/Close，子类重写 OnOpen/OnClose。
 /// </summary>
-public abstract class UiPanel : MonoBehaviour
+public abstract class UiBase : MonoBehaviour
 {
     [SerializeField] UiLayerType layer = UiLayerType.Panel;
     [SerializeField] string panelId;

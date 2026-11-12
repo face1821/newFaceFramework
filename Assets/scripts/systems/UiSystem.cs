@@ -15,7 +15,7 @@ public class UiSystem : IGameSystem
 
     readonly Transform _parent;
     readonly Dictionary<Type, string> _paths = new Dictionary<Type, string>();
-    readonly Dictionary<Type, UiPanel> _opened = new Dictionary<Type, UiPanel>();
+    readonly Dictionary<Type, UiBase> _opened = new Dictionary<Type, UiBase>();
     readonly Dictionary<UiLayerType, Transform> _layers = new Dictionary<UiLayerType, Transform>();
 
     Transform _root;
@@ -44,7 +44,7 @@ public class UiSystem : IGameSystem
     }
 
     /// <summary>登记面板类型对应的 Resources 路径，例如 Prefabs/UI/TestPanel。</summary>
-    public void Register<T>(string resourcesPath) where T : UiPanel
+    public void Register<T>(string resourcesPath) where T : UiBase
     {
         if (string.IsNullOrEmpty(resourcesPath))
         {
@@ -55,7 +55,7 @@ public class UiSystem : IGameSystem
         _paths[typeof(T)] = resourcesPath;
     }
 
-    public T Open<T>(object args = null) where T : UiPanel
+    public T Open<T>(object args = null) where T : UiBase
     {
         var type = typeof(T);
         if (_opened.TryGetValue(type, out var existing) && existing != null)
@@ -103,24 +103,24 @@ public class UiSystem : IGameSystem
         return instance;
     }
 
-    public void Close<T>() where T : UiPanel
+    public void Close<T>() where T : UiBase
     {
         Close(typeof(T));
     }
 
-    public void Close(UiPanel panel)
+    public void Close(UiBase panel)
     {
         if (panel == null)
             return;
         Close(panel.GetType(), panel);
     }
 
-    public bool IsOpen<T>() where T : UiPanel
+    public bool IsOpen<T>() where T : UiBase
     {
         return _opened.TryGetValue(typeof(T), out var panel) && panel != null;
     }
 
-    public T Get<T>() where T : UiPanel
+    public T Get<T>() where T : UiBase
     {
         if (_opened.TryGetValue(typeof(T), out var panel) && panel != null)
             return panel as T;
@@ -134,7 +134,7 @@ public class UiSystem : IGameSystem
             Close(types[i]);
     }
 
-    public void NotifyPanelClosed(UiPanel panel)
+    public void NotifyPanelClosed(UiBase panel)
     {
         if (panel == null)
             return;
@@ -150,7 +150,7 @@ public class UiSystem : IGameSystem
         return t;
     }
 
-    void Close(Type type, UiPanel expected = null)
+    void Close(Type type, UiBase expected = null)
     {
         if (!_opened.TryGetValue(type, out var panel) || panel == null)
         {
